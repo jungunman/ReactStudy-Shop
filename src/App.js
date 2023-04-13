@@ -1,9 +1,5 @@
 import './App.css';
 import {Col, Row, Navbar, Container,Nav} from 'react-bootstrap';
-
-import product1 from "./img/product1.jpg"
-import product2 from "./img/product2.jpg"
-import product3 from "./img/product3.png"
 //부트스트랩 import방법
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -26,17 +22,17 @@ function App() {
       <Container>
         <Row>
           <Col md={4}>
-            <img className='main-products' src= {product1}/>
+            <img className='main-products' alt='' src= {process.env.PUBLIC_URL+"/img/product1.jpg"}/>
             <h4>상품명</h4>
             <p>상품설명</p>
           </Col>
           <Col md={4}>
-            <img className='main-products' src={product2}/>
+            <img className='main-products' alt='' src= {process.env.PUBLIC_URL+"/img/product2.jpg"}/>
             <h4>상품명</h4>
             <p>상품설명</p>
           </Col>
           <Col md={4}>
-            <img className='main-products' src={product3}/>
+            <img className='main-products' alt='' src= {process.env.PUBLIC_URL+"/img/product3.png"}/>
             <h4>상품명</h4>
             <p>상품설명</p>
           </Col>
