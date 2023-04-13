@@ -1,70 +1,57 @@
-# Getting Started with Create React App
+# React로 쇼핑몰 만들기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Bootstrap 다운
+터미널창에 입력
+```
+npm install react-bootstrap bootstrap
+```
+다운 끝.
 
-## Available Scripts
+## Bootstrap 사용법
+사이트 주소 \
+https://react-bootstrap.netlify.app/docs/getting-started/introduction
 
-In the project directory, you can run:
+이쪽에서 원하는 기능을 추가하면 됨.\
+App.js에서는 \
+import { 추가한 컨테이너 이름} from 'react-bootstrap'; 을 넣어주면 된다.
 
-### `npm start`
+## React 이미지 넣는 법
+CSS파일에서 작업하는 것이 좋음
+```
+.클래스이름{
+  height: 350px;
+  object-fit: cover; //사이즈 조절
+  background-image: url("이미지 경로"); //이미지 넣는 곳
+  background-position: center;
+}
+```
+이렇게 넣어주고 app.js에 클래스 이름을 붙여주면 됨.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+HTML 상에서 넣는 방법도 있지만, 더 번거로움\
+그래도 적어보자면, 
+```
+import 변수명 from "이미지 경로"
+<div className='main-bg' style={{backgroundImage : `url(${변수명})`}}></div>
+```
+이렇게 사용하면 된다.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 이미지 크기 조절
+```
+<img width="90%" height="80%" src= {product1}/>
+```
+이렇게 가능함.\
+object-fit이 안되기에 css가 더 깔끔하고 이쁨.
 
-### `npm test`
+## public 폴더 사용법
+리액트는 사이트 발행전에 html,js,css를 압축하게 된다.(building)\
+public 폴더 안에 있는 것을 경로 가져올 때는 
+```
+<img src="/이미지 경로" />
+```
+처럼 가지고 와도 되서 편함!\
+만약 사이트 경로가 많아질 경우 아래 코드를 이용하면 됨.
+```
+<img src={process.env.PUBLIC_URL+"/이미지 경로"} />
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
