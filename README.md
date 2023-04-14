@@ -56,7 +56,7 @@ public 폴더 안에 있는 것을 경로 가져올 때는
 
 ## Import, Export 
 데이터 및 자료가 많으면 다른 파일을 만들고 Export 하고,\
-Import해서 자료를 가져오면 됩니다.\
+Import해서 자료를 가져오면 됩니다.
 
 ### 하나의 자료를 내보낼 땐 export default 변수명 형식으로 내보내면 됩니다.
 ```
@@ -114,7 +114,7 @@ root.render(
 import { BrowserRouter } from 'react-router-dom';
 ```
 
-App.js 파일로 돌아와서\
+App.js 파일로 돌아와서
 ```
 import { Routes, Route, Link} from 'react-router-dom'
 ```
@@ -142,7 +142,7 @@ a 태그랑 같은 역할을 한다.
 
 
 ## useNavigate 사용법
-Hook임 => 유용한 것들을 모아둔 함수.\
+Hook임 => 유용한 것들을 모아둔 함수.
 ```
 let navigate = useNavigate();
 ```
@@ -217,7 +217,7 @@ let ColorwBtn = styled.button`
 <ColorwBtn bg="blue">버튼</ColorwBtn>
 ```
 형태를 보면 이것도 하나의 컴포넌트라고 생각할 수 있다.\
-근데 난 이게 불편하다.\
+근데 난 이게 불편하다.
 
 CSS파일로 작업하려면 페이지의 이름을 다르게 해서 적용하는 방법도 있다.\
 파일명.module.css \
@@ -280,7 +280,7 @@ useEffect(()=>{
 HTML을 먼저 보여주고 나서 복잡한 작업을 실행하게 해준다.\
 1.시간이 좀 걸리는 코드는 useEffect에 넣어서 실행시키자.\
 2.서버에서 데이터 가져오는 작업\
-3.타이머 장착하는 작업\
+3.타이머 장착하는 작업
 
 부가기능을 가진 side Effect를 useEffect에 사용하자.
 
