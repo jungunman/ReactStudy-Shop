@@ -146,4 +146,174 @@ Hook임 => 유용한 것들을 모아둔 함수.\
 ```
 let navigate = useNavigate();
 ```
+이렇게 변수로 만들어주고 사용하면 됨.
+```
+<button onClick={()=>{navigate("경로")}}>Navigate 사용법</button>
+```
+이렇게 사용하는 이유는 Link 컴포터트를 사용했을 때 안 이쁘기 때문에!\
+사용법 숙달 이슈가 있을수도 있음.
 
+
+## nested routes / outlet 사용법
+nested routes 는 route를 만들 때 경로가 비슷한 것들을 모아두는 곳이라고 생각하면 됩니다.\
+사용법은 아래와 같습니다.
+```
+<Route path="/상위경로" element={<div>HTML 코드1</div>}>
+          <Route path="하위경로1" element={<div>HTML 코드1</div>} />
+          <Route path="하위경로2" element={<div>HTML 코드2</div>} />
+        </Route>
+```
+HTML코드1을 누르게 되면 url에서는 이렇게 보인다.\
+도메인.com/상위경로/하위경로1
+
+outlet은 하위 경로로 진입하면 보일 css를 어디다가 보여줄 것인지 위치를 정해주는 것이다.
+```
+return (
+    <>
+        <div>회사 정보 페이지</div>
+        <button>멤버</button>
+        <button>회사위치</button>
+        <Outlet></Outlet>
+    </>
+    );
+```
+이 경우 회사위치 아래에 하위경로1의 CSS가 들어간다.
+
+
+## URL 파라미터 다루기
+URL의 파라미터로 서버에서 받아온 데이터 값을 뿌려주면 한페이지로 여러 페이지를 복사 가능하다.\
+작성법은 아래와 같다.
+```
+<Route path='/detail/:파라미터' element={<div>HTML 코드</div>}/>
+```
+이렇게 파라미터를 꽃아 넣을 수 있고 여러 파라미터도 넣을 수 있다.\
+react-router-dom 라이브러리를 설치해야 한다.\
+가져오는 방법은 아래와 같다.
+```
+import { useParams } from 'react-router-dom';
+
+//함수 내에 선언
+const {파라미터 이름} = useParams();
+
+<h4>파라미터 이름의 값 : {파라미터 이름}</h4>
+```
+
+## styled-components를 사용하여 CSS 적용하기
+라이브러리 설치 먼저
+```
+npm install styled-components
+```
+그 후 사용법
+```
+import styled from 'styled-components';
+
+let ColorwBtn = styled.button`
+  background :${ props => props.bg};
+  color : ${props => props.bg === "blue" ? "white" : "black"};
+  padding : 10px;
+`
+
+//함수 내 리턴값에 선언
+<ColorwBtn bg="blue">버튼</ColorwBtn>
+```
+형태를 보면 이것도 하나의 컴포넌트라고 생각할 수 있다.\
+근데 난 이게 불편하다.\
+
+CSS파일로 작업하려면 페이지의 이름을 다르게 해서 적용하는 방법도 있다.\
+파일명.module.css \
+형태로 작성하고 import해서 사용하면 됩니다.
+
+
+## Lifecycle 과 useEffect
+
+### 컴포넌트의 Lifecycle
+페이지에 장착되기도하고 (mount)\
+가끔 업데이트도 되고 (update)\
+필요 없으면 제거되고 (unmount)
+
+알아두면 좋은 점 => 라이프 사이클 중간중간에 실행할 코드를 껴서 실행시킬 수 있음.
+
+예전 컴포넌트 구조에 간섭하는 방법
+```
+class Detail2 extends React.Component{
+  componentDidMount(){
+    컴포넌트가 마운트 될때 실행할 코드 작성
+  }
+  componentDidUpdate(){
+   컴포넌트가 업데이트 될 때 실행할 코드 작성
+  }
+  componentWillUnmount(){
+    컴포넌트가 삭제될 때 실행할 코드 작성
+  }
+}
+```
+
+요즘 컴포넌트 구조에 간섭하는 방법
+```
+import { useEffect } from 'react';
+
+//컴포넌트 함수 내에 작성
+useEffect(()=>{
+    mount, update시 여기 코드 실행
+  }, []);
+```
+### useEffect(실행할 함수 , [state모음])의 , [] 이건 Dependency
+[]안의 state가 변할때만 실행된다.
+근데 []이렇게만 써놓으면 mount 할때만 실행된다.
+
+### useEffect 내의 return => useEffect 동작 전에 실행되는 코드!
+```
+useEffect(()=>{
+  //리턴 후에 실행될 코드
+  return ()=>{
+    //useEffect 실행 전에 실행되는 코드!
+    //기존 코드 치우는거를 여기에 많이 작성함!
+    //ex = 기존 데이터 요청 제거해주세요!
+  }
+})
+```
+아것을 Clean up function이라고 부름\
+잘 활용하면 효율이 좋아진다!
+
+### useEffect는 언제 사용하나요?
+실행시점이 약간 다르다.\
+HTML을 먼저 보여주고 나서 복잡한 작업을 실행하게 해준다.\
+1.시간이 좀 걸리는 코드는 useEffect에 넣어서 실행시키자.\
+2.서버에서 데이터 가져오는 작업\
+3.타이머 장착하는 작업\
+
+부가기능을 가진 side Effect를 useEffect에 사용하자.
+
+### 타이머 다루기
+```
+setTimeout(()=>{실행할 코드}, 1000)
+```
+초는 ms임. 1000 = 1초.
+
+### useEffect 요점 정리
+1. 재랜더링마다 코드 실행하고 싶으면\
+useEffect(()=>{ 실행할 코드 }); 
+
+2. mount시 1회 코드 실행하고 싶으면
+useEffect(()=>{ 실행할 코드 }, []);
+
+3. unmount시 1회 코드 실행하고 싶으면
+useEffect(()=>{ return ()=>{ 실행할 코드 } });
+
+4. clean up function 시
+useEffect(()=>{ return ()=>{ 실행할 코드 } });
+
+
+## input tag에 숫자만 넣기 경고창까지 함께
+```
+<input type='text' minLength={1} onChange={(e)=>{
+                  const regex = /^[0-9]+$/;
+                  if (regex.test(e.target.value)){
+                    setText(e.target.value);
+                    setAlert(false);
+                  }else{
+                    e.target.value = text;
+                    setAlert(true);
+                  }
+                }}/>
+```

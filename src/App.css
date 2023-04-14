@@ -52,6 +52,10 @@
   color: black; 
 }
 
+.displayNone{
+  display: none;
+}
+
 
 @keyframes App-logo-spin {
   from {
