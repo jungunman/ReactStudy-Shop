@@ -317,3 +317,60 @@ useEffect(()=>{ return ()=>{ 실행할 코드 } });
                   }
                 }}/>
 ```
+
+## Component 내의 props 쉽게 쓰는 꿀팁
+```
+function 함수명 ({프롭스명1,프롭스명2}){
+  <div>프롭스명1</div>
+  <div>프롭스명2</div>
+}
+```
+이렇게하면 props.state명 안써두 됨.
+
+
+## Ajax 사용하기
+1. 어떤 방법 (get/post) \
+2. 어떤 자료 (url) \
+형태로 작성할 것.
+
+3가지 ajax 사용법이 있다.\
+1. XMLHttpRequest\
+2. fetch()\
+3. axios
+
+요즘 많이 사용하는 것은 axios\
+axios 라이브러리 이용할거므로 설치
+```
+npm install axios
+```
+
+사용방법은 아래와 같다. import 필수!
+```
+import axios from 'axios';
+axios.get(`get요청할 url`)
+                  .then((결과)=>{
+                    결과.data
+                    데이터가 가져왔을 때 쓰는 곳
+                  })
+                  .catch(()=>{
+                    에러났을 때 쓰는 곳
+                  });
+```
+fetch 방법도 있는데, JSON을 벗겨주는 작업이 필요하므로\
+코드 해석할 때 이외에는 안쓰는 것으로 한다.\
+하지만 코드는 해석해야하니까 사용 방법은 아래와 같다.
+```
+fetch('get요청할 url').then((결과)=>{결과.json}).then((data) => {})
+```
+기본 골자는 이런 느낌?\
+딱봐도 복잡하다. 그냥 axios 쓰자.
+
+## get요청을 여러개 하고 싶을 땐 Promise.all([])
+두 개의 get 요청의 데이터를 모두 가져왔을 때 실행시켜준다.\
+사용방법은 아래와 같다.
+```
+Promise.all([ axios.get("get요청할 url"),axios.get("get요청할 url1")])
+.then((결과)=>{ 결과.data
+데이터 모두 가져왔을 대 쓰는 곳})
+.catch(()=>{에러났을 때 쓰는 곳});
+```

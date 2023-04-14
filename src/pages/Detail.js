@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import {Col, Row, Container} from 'react-bootstrap';
 import { json, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import {Nav} from 'react-bootstrap';
 
 let ColorwBtn = styled.button`
   //styled-components 라이브러리의 문법임 ex) props => props.bg
@@ -17,6 +18,7 @@ function Detail(props){
   const [display,setDisplay] = useState(true);
   const [alert,setAlert] = useState(false);
   const [text,setText] = useState("");
+  const [tabs,setTabs] = useState(0);
 
   useEffect(()=>{ 
     let timer = setTimeout(()=>{
@@ -69,9 +71,31 @@ function Detail(props){
             </Col>
           </Row>
         </Container>
+        <Nav variant="tabs"  defaultActiveKey="link0">
+            <Nav.Item>
+              <Nav.Link eventKey="link0" onClick={()=>{ setTabs(0)}}>버튼0</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="link1" onClick={()=>{ setTabs(1)}}>버튼1</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="link2" onClick={()=>{ setTabs(2)}}>버튼2</Nav.Link>
+            </Nav.Item>
+        </Nav>
+        <TabContents tabs = {tabs}/>
+
       </>
     )
   }
 
+  function TabContents(props){
+    if(props.tabs === 0){
+      return (<div>내용0</div>)
+    }else if(props.tabs === 1){
+      return (<div>내용1</div>)
+    }else if(props.tabs === 2){
+      return (<div>내용2</div>)
+    }
+  }
 
   export default Detail;

@@ -6,10 +6,12 @@ import { Routes, Route, Link, useNavigate ,Outlet} from 'react-router-dom';
 import Detail from './pages/Detail';
 import MainPage from './pages/Main';
 import About from './pages/About';
+import axios from 'axios';
 
 function App() {
 
   let [data, setData] = useState(serverData);
+  let [moreCount,setMoreCount] = useState(0);
   let navigate = useNavigate();
   return (
     <div className="App">
@@ -26,7 +28,8 @@ function App() {
       </Navbar>
       <Routes>
         <Route path='/' element={
-          <MainPage data = {data} setData ={setData} />
+          <MainPage data = {data} setData ={setData}
+           moreCount = {moreCount} setMoreCount = {setMoreCount}/>
         }/>
         <Route path='/detail/:id' element={
           <Detail data = {data}/>
