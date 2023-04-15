@@ -5,6 +5,7 @@ import serverData from './data.js';
 import { Routes, Route, Link, useNavigate ,Outlet} from 'react-router-dom';
 import Detail from './pages/Detail';
 import MainPage from './pages/Main';
+import Cart from './pages/Cart';
 import About from './pages/About';
 import axios from 'axios';
 
@@ -23,6 +24,7 @@ function App() {
             <Nav.Link onClick={()=>{navigate("/")}}>Home</Nav.Link>
             <Nav.Link onClick={()=>{navigate("/detail")}}>Detail</Nav.Link>
             <Nav.Link onClick={()=>{navigate("/about")}}>About</Nav.Link>
+            <Nav.Link onClick={()=>{navigate("/cart")}}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -38,6 +40,7 @@ function App() {
           <Route path="member" element={<div>멤버임</div>} />
           <Route path="location" element={<div>위치임</div>} />
         </Route>
+        <Route path="/cart" element={<Cart/>}/>
         <Route path='*' element={
           <div>없는 페이지입니다</div>
         }/>

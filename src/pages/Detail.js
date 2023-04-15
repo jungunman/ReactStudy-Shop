@@ -19,24 +19,28 @@ function Detail(props){
   const [alert,setAlert] = useState(false);
   const [text,setText] = useState("");
   const [tabs,setTabs] = useState(0);
+  const [fade2, setFade2] = useState('');
 
   useEffect(()=>{ 
-    let timer = setTimeout(()=>{
+    let timer = [setTimeout(()=>{
       setDisplay(false);
-    },1000 * 2)
-
+    },1000 * 2),
+    setTimeout(()=>{
+      setFade2('end')
+    },100)
+  ]
+    
+    setFade2('end')
     return (()=>{
+      setFade2('');
       clearTimeout(timer);
     })
   }, []);
 
-
-
-
     const {id} = useParams();
     return (
       <>
-        <Container>
+        <Container className={`start ${fade2}`}>
           {
             display === true ? <div className='alert alert-warning' >
                                 2초 이내 구매 시 할인
@@ -71,7 +75,7 @@ function Detail(props){
             </Col>
           </Row>
         </Container>
-        <Nav variant="tabs"  defaultActiveKey="link0">
+        <Nav className={`start ${fade2}`} variant="tabs"  defaultActiveKey="link0">
             <Nav.Item>
               <Nav.Link eventKey="link0" onClick={()=>{ setTabs(0)}}>버튼0</Nav.Link>
             </Nav.Item>
@@ -82,20 +86,28 @@ function Detail(props){
               <Nav.Link eventKey="link2" onClick={()=>{ setTabs(2)}}>버튼2</Nav.Link>
             </Nav.Item>
         </Nav>
-        <TabContents tabs = {tabs}/>
+        <TabContents tabs = {tabs} data={props.data} id={id}/>
 
       </>
     )
   }
 
   function TabContents(props){
-    if(props.tabs === 0){
-      return (<div>내용0</div>)
-    }else if(props.tabs === 1){
-      return (<div>내용1</div>)
-    }else if(props.tabs === 2){
-      return (<div>내용2</div>)
-    }
+    const [fade, setFade] = useState('');
+    useEffect(()=>{
+      let timer = setTimeout(()=>{
+        setFade('end')
+      }, 10);
+      return (()=>{ 
+        clearTimeout(timer);
+        setFade('');
+      });
+    }, [props.tabs])
+    return(
+   <div className={`start ${fade}`}>
+    {[<div>{props.data[props.id].title}</div>,<div>내용1</div>,<div>내용2</div>][props.tabs]}
+   </div>
+    )
   }
 
   export default Detail;

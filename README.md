@@ -140,6 +140,14 @@ Route에는 path와, element를 넣어준다. \
 ```
 a 태그랑 같은 역할을 한다.
 
+## destructuring 문법
+배열들과 오브젝트들을 가져올 떄, 이름을 한번에 명하는 것을 말한다.\
+아래와 같은 것들을 말한다.
+```
+const [state,setState] = useState(0);
+export let {changeName, changeCount} = user.actions
+```
+
 
 ## useNavigate 사용법
 Hook임 => 유용한 것들을 모아둔 함수.
@@ -374,3 +382,206 @@ Promise.all([ axios.get("get요청할 url"),axios.get("get요청할 url1")])
 데이터 모두 가져왔을 대 쓰는 곳})
 .catch(()=>{에러났을 때 쓰는 곳});
 ```
+
+## Component 전환 애니메이션 주기 (Transition)
+부착하면 애니메이션 나오는 className 하나 만들고 원할 때 땠다 붙였다 하면 됨.\
+방법의 순서는 아래와 같다.
+
+1. 애니메이션 동작 전 className 만들기\
+2. 애니메이션 동작 후 className 만들기\
+3. className에 transition 속성 추가\
+4. 원할 때 2번 className 부착
+
+사용 방법은 아래와 같다.
+```
+ function TabContents(props){
+  //useState로 땠다 붙였다 기능하기 위해 State 만듬
+    const [fade, setFade] = useState('');
+
+    useEffect(()=>{
+      setFade('end');
+      return (()=>{
+        setFade('');
+      });
+    }, [props.tabs])
+
+    return(
+   <div className={`start ${fade}`}>
+    {[<div>내용0</div>,<div>내용1</div>,<div>내용2</div>][props.tabs]}
+   </div>
+    )
+  }
+
+```
+이렇게 하면 이론상 땠다 붙였다 하지만 문제가 발생한다.
+
+
+### 리액트의 automatic batching 기능 때문에 문제
+리액트는 state 변경이 일어날 때마다 재랜더링을 해줬었는데, \
+데이터 효율 때문인지 붙어있는 setState들의 변경이 되면 재랜더링을 한번만 해준다.\
+그렇기 때문에 setTimeOut(()=>{실행할 코드},시간)을 써줘야 한다.\
+임의로 setState의 간격을 넓히는 셈.\
+코드는 아래와 같다.
+```
+ function TabContents(props){
+    const [fade, setFade] = useState('');
+
+    useEffect(()=>{
+      let timer = setTimeout(()=>{
+        setFade('end')
+      }, 10);
+      return (()=>{ 
+        clearTimeout(timer);
+        setFade('');
+      });
+    }, [props.tabs])
+
+
+    return(
+   <div className={`start ${fade}`}>
+    {[<div>내용0</div>,<div>내용1</div>,<div>내용2</div>][props.tabs]}
+   </div>
+    )
+  }
+```
+timer도 return 에서 지워주는 것이 센스다.\
+useEffect에서 return은 본 함수보다 먼저 실행되는 것 꼭 기억하자!
+
+
+## State 관리를 위한 Context API 그러나.. 잘 사용 안함 (성능이슈)
+Redux Toolkit 씀.\
+그래도 그런 코딩 있으면 이해하기 위해 배운다...!
+
+안쓰는 이유\
+1. 성능이슈 => state 안쓰는 놈들까지 재랜더링 해버림.\
+2. 컴포넌트 재활용이 어려움
+
+사용방법은 아래와 같다.\
+app.js에 createContext import!
+```
+1. app.js 함수 바깥에 export const Context = creatContext();\
+2. state 공유하고 싶은 컴포넌트를 <Context.Provider>로 감싼다.\
+3. <Context.Provider value={{ 공유 원하는 state 다 넣기 }}>\
+4. 사용하고 싶은 컴포넌트에서 import 한다.
+=> import{Context} from './../app.js'
+5. 컴포넌트 함수 내에서 const {state이름, state이름1} = useContext(Context);하면 이제 Context 사용 가능.
+
+객체형식으로 반환하니 저렇게 사용가능.
+```
+
+## 그래서 redux를 알아봅니다!
+리덕스는 state를 통으로 만들어서 props의 도움 없이도 state를 뿌려줄 수 있다.\
+리덕스는 pagckge.json 파일을 열어서\
+react-dom 와 react 가 18.1.x 버전 이상이여야 문제 없다.\
+기업체라면 18.1 이상은 쓰겠지.. 설마...!\
+설치 방법은 아래와 같다.
+```
+npm install @reduxjs/toolkit react-redux
+```
+
+### 리덕트 쓰기 위해서 할 셋팅!
+1. src 하위에 store.js를 만든다\
+그리고 아래 코드를 붙여 넣는다.
+```
+import { configureStore } from '@reduxjs/toolkit'
+
+export default configureStore({
+  reducer: { }
+}) 
+```
+2. 그리고 index.js 가서 <Provider store={store}>로 감싼다.\
+모습은 아래와 같다.
+```
+import store from './store.js';
+<Provider store={store}>
+    <React.StrictMode>
+      <BrowserRouter>
+      <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  </Provider>
+```
+store를 임포트하는 것은 잊지말자!\
+셋팅 끝!
+
+## 리덕스 사용법
+아래 코드를 export하기 전에 삽입한다.
+```
+const user = createSlice({
+    name : "user",
+    initialState : "김희성"
+});
+
+export default configureStore({
+  reducer: { 
+    user : user.reducer
+  }
+}) 
+```
+위의 코드를 보면\
+1. useState하는 createSlice를 하고\
+2. reducer:{} 부분에 추가한다.\
+3. 데이터 부분을 보면 user.reducer가 보일 것이다! 중요!
+
+등록은 끝났다.\
+이제 할 부분은 저 리덕스를 가져가서 쓰는 것!\
+사용할 해당 파일에 아래 코드를 추가한다.
+```
+const state = useSelector((state)=>{return state});
+```
+useSelector((state)=>{return state})는 아래처럼 생략 가능하다.
+```
+const state = useSelector((state)=> state );
+console.log(state.user);
+
+//값 : 김희성
+```
+모든 데이터를 redux에 넣을 필요는 없고,\
+자주 쓰이는 state가 아니라 해당 페이지에서만 쓰는 state라면\
+그냥 useState()쓰자...
+
+### redux state 변경하는 법
+아래 코드의 reducers를 주목하라!
+```
+const user = createSlice({
+    name : "user",
+    initialState : "김희성",
+    reducers : {
+        함수명1(기존 state){
+            return '애기씨 남편' + state
+        },
+        함수명2(){
+          return ...
+        }
+    }
+});
+
+export let {함수명1,함수명2} = user.actions
+```
+reducers 안에는 여러 함수를 넣을 수 있고,\
+그 함수들을 export 해서 사용할 수 있다.\
+redux에서는 변수명.actions를 하면 함수가 담기고,\
+맨 밑의 코드처럼 export 할 수 있다.\
+export 했으면 import는 필수다~\
+import 후에 useDispatch()를 써준다.
+<strong>
+dispatch는 store.js로 요청보내주는 함수다.
+</strong>
+방법은 아래와 같다.
+```
+//Cart.js 내부 코드
+import { useDispatch } from "react-redux";
+const dispatch = useDispatch();
+
+<td><button onClick={()=>{
+  dispatch(changeName());
+  console.log(state.user);
+}}>+</button></td>
+```
+
+### redux state 변경하는 법 요약
+1. state 변경하는 함수 만들기
+2. export
+3. dispatch(state변경함수())
+
+
