@@ -584,4 +584,24 @@ const dispatch = useDispatch();
 2. export
 3. dispatch(state변경함수())
 
+## redux array,object state 변경법
+```
+ changeName(state){
+            state.name = "유진초이";
+            // return {name:"유진초이", age:20}
+        }
+```
+위처럼 직접 수정해도 가능하다.
+
+### 함수에 파라미터 뚫기 및 payload
+매개 변수를 입력 받아 좀 더 동적으로 만들기\
+ex => 게시글 20개씩 받아보기
+```
+changeAge(state, 매개변수-보통 action이라고 작명함){
+            state.key명 += 매개변수.payload;
+        }
+```
+payload를 붙여야 컴포넌트에서 받아온 매개변수를 제대로 인식\
+action은 변경해주는 함수들이라고 생각하면 됨.
+
 

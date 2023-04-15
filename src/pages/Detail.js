@@ -3,6 +3,8 @@ import {Col, Row, Container} from 'react-bootstrap';
 import { json, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import {Nav} from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCart } from '../store.js';
 
 let ColorwBtn = styled.button`
   //styled-components 라이브러리의 문법임 ex) props => props.bg
@@ -15,11 +17,17 @@ let ColorwBtn = styled.button`
 
 
 function Detail(props){
+  //Redux-States
+  const cart = useSelector((state)=>{return state.cart});
+  const dispatch = useDispatch();
+
+  //useStates
   const [display,setDisplay] = useState(true);
   const [alert,setAlert] = useState(false);
   const [text,setText] = useState("");
   const [tabs,setTabs] = useState(0);
   const [fade2, setFade2] = useState('');
+
 
   useEffect(()=>{ 
     let timer = [setTimeout(()=>{
@@ -71,7 +79,10 @@ function Detail(props){
               <h4 className="pt-5">{props.data[props.data[id].id].title}</h4>
               <p>{props.data[props.data[id].id].content}</p>
               <p>{props.data[props.data[id].id].price}원</p>
-              <button className="btn btn-danger">주문하기</button> 
+              <button className="btn btn-danger" onClick={()=>{
+                dispatch(addCart({id:props.data[props.data[id].id].id , name:props.data[props.data[id].id].title, count:props.data[props.data[id].id].count}));
+                console.log(cart);
+              }}>주문하기</button> 
             </Col>
           </Row>
         </Container>

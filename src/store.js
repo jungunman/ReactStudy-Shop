@@ -1,24 +1,34 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+import user from "./store/userSlice.js"
 
-const user = createSlice({
-    name : "user",
-    initialState : "김희성",
-    reducers : {
-        changeName(state){
-            return '애기씨 남편' + state
-        }
-    }
-});
 
-export let {changeName} = user.actions;
 
 const cart = createSlice({
     name : "cart",
     initialState : [
-        {id : 0, name : 'White and Black', count : 2},
-        {id : 2, name : 'Grey Yordan', count : 1}
-      ] 
+        {id : 9, name : 'White and Black', count : 2},
+        {id : 8, name : 'Grey Yordan', count : 1}
+      ] ,
+      reducers : {
+        upCount(state, action){
+            let finded = state.find((e)=>e.id === action.payload);
+            finded.count += 1;
+        },
+        addCart(state, action){
+            if(state.find((e)=>e.id === action.payload.id)){
+                let finded = state.find((e)=>e.id === action.payload.id);
+                finded.count += 1;
+            }else{
+                state.push(action.payload);
+            }
+        },
+        deleteCart(state,action){
+            return state.filter((e)=>e.id !== action.payload); 
+        }
+      }
 });
+
+export let {upCount,addCart,deleteCart} = cart.actions;
 
 
 
