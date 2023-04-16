@@ -870,3 +870,5 @@ function App(){
 근데 기능은 같으니 편한거 알아서 쓰자구~
 
 ## PWA 셋팅해서 앱으로 발행하기 (모바일앱인척하기)
+ https://elice.io/newsroom/pwa_2 기존 프로젝트에 pwa 추가
+ 
