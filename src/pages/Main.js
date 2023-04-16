@@ -26,7 +26,28 @@ function MainPage(props){
                 <Row>
                   {props.data.map((element,i)=>{
                     return(
-                      <Link key={element.id}  className='col-md-4' to={`/detail/${element.id}`} style={{textDecoration :'none', color : "grey"}}>
+                      <Link onClick={()=>{
+                        //최근 본 상품 만들기
+                        if(localStorage.getItem("watched")){
+                          const watched = JSON.parse(localStorage.getItem("watched"));
+                          const isWatched = watched.findIndex((item)=>item.id==element.id);
+                          if(isWatched == -1){
+                            watched.push({
+                              id : element.id,
+                              name :  element.title,
+                              price : element.price
+                            });
+                            localStorage.setItem("watched",JSON.stringify(watched));
+                          }
+                        }else{
+                          const watched =[{
+                            id : element.id,
+                            name :  element.title,
+                            price : element.price
+                          }];
+                          localStorage.setItem("watched",JSON.stringify(watched));
+                        }
+                      }} key={element.id}  className='col-md-4' to={`/detail/${element.id}`} style={{textDecoration :'none', color : "grey"}}>
                         <Card data = {element} i={i} />
                       </Link>
                       )
@@ -49,7 +70,6 @@ function MainPage(props){
                     setLoading(false);
                   })
                   .catch(()=>{
-                    console.log(loading);
                     setMoreBtn(false);
                     setLoading(false);
                   });

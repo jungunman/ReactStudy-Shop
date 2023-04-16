@@ -65,6 +65,10 @@
   transition : opacity 0.5s;
 }
 
+.ms-auto{
+  color: wheat
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
