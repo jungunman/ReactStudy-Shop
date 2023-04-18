@@ -2,7 +2,7 @@
 
 ## Bootstrap 다운
 터미널창에 입력
-```
+```bash
 npm install react-bootstrap bootstrap
 ```
 다운 끝.
@@ -17,7 +17,7 @@ import { 추가한 컨테이너 이름} from 'react-bootstrap'; 을 넣어주면
 
 ## React 이미지 넣는 법
 CSS파일에서 작업하는 것이 좋음
-```
+```css
 .클래스이름{
   height: 350px;
   object-fit: cover; //사이즈 조절
@@ -29,14 +29,14 @@ CSS파일에서 작업하는 것이 좋음
 
 HTML 상에서 넣는 방법도 있지만, 더 번거로움\
 그래도 적어보자면, 
-```
+```javascript
 import 변수명 from "이미지 경로"
 <div className='main-bg' style={{backgroundImage : `url(${변수명})`}}></div>
 ```
 이렇게 사용하면 된다.
 
 ## 이미지 크기 조절
-```
+```javascript
 <img width="90%" height="80%" src= {product1}/>
 ```
 이렇게 가능함.\
@@ -45,12 +45,12 @@ object-fit이 안되기에 css가 더 깔끔하고 이쁨.
 ## public 폴더 사용법
 리액트는 사이트 발행전에 html,js,css를 압축하게 된다.(building)\
 public 폴더 안에 있는 것을 경로 가져올 때는 
-```
+```javascript
 <img src="/이미지 경로" />
 ```
 처럼 가지고 와도 되서 편함!\
 만약 사이트 경로가 많아질 경우 아래 코드를 이용하면 됨.
-```
+```javascript
 <img src={process.env.PUBLIC_URL+"/이미지 경로"} />
 ```
 
@@ -59,7 +59,7 @@ public 폴더 안에 있는 것을 경로 가져올 때는
 Import해서 자료를 가져오면 됩니다.
 
 ### 하나의 자료를 내보낼 땐 export default 변수명 형식으로 내보내면 됩니다.
-```
+```javascript
 const serverData = [{
   자료이름1 :자료1
   자료이름2 :자료2
@@ -69,12 +69,12 @@ export default serverData;
 ```
 
 ### 하나의 자료를 받을 땐 받을 js 파일에서 아래 코드를 작성합니다.
-```
+```javascript
 import 변수명 from '받을 데이터 경로';
 ```
 
 ### 여러 개의 자료를 내보내는 방법
-```
+```javascript
 const 변수명1 = 1;
 const 변수명2 = 2;
 
@@ -82,7 +82,7 @@ export {변수명1,변수명2};
 ```
 
 ### 여러 개의 자료를 받을 땐 받을 js 파일에서 아래 코드를 작성합니다
-```
+```javascript
 import {변수명1,변수명2} from '받을 데이터 경로'
 ```
 <strong>주의할 점</strong>\
@@ -92,12 +92,12 @@ Export할 때의 변수명과 Import할 때의 변수명이 다르면 안됩니�
 ## 리액트 라우터 셋팅이랑 기본 라우팅
 react-router-dom 라이브러리를 쓰면 if문 떡칠 안해도 됩니다.\
 6버전 설치함.
-```
+```bash
 npm install react-router-dom@6
 ```
 
 그다음 /src/index.js 파일 열고
-```
+```javascript
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
@@ -110,18 +110,19 @@ root.render(
 
 <App />을 <BrowserRouter>로 감싸면 된다.\
 <BrowserRouter>를 Import 하는 것은 필수!
-```
+
+```javascript
 import { BrowserRouter } from 'react-router-dom';
 ```
 
 App.js 파일로 돌아와서
-```
+```javascript
 import { Routes, Route, Link} from 'react-router-dom'
 ```
 임포트는 라우츠와 라우트 링크를 react-router-dom로부터 Import 해주면 사용 준비끝!
 
 ### 사용하는 방법은?
-```
+```javascript
 <Routes>
   <Route path='/경로' element={HTML코드 및 컴포넌트}/>
 
@@ -135,7 +136,7 @@ Route에는 path와, element를 넣어준다. \
 
 
 ### LINK사용법
-```
+```javascript
 <Link to="/">홈</Link>
 ```
 a 태그랑 같은 역할을 한다.
@@ -143,11 +144,11 @@ a 태그랑 같은 역할을 한다.
 
 ## useNavigate 사용법
 Hook임 => 유용한 것들을 모아둔 함수.
-```
+```javascript
 let navigate = useNavigate();
 ```
 이렇게 변수로 만들어주고 사용하면 됨.
-```
+```javascript
 <button onClick={()=>{navigate("경로")}}>Navigate 사용법</button>
 ```
 이렇게 사용하는 이유는 Link 컴포터트를 사용했을 때 안 이쁘기 때문에!\
@@ -157,7 +158,7 @@ let navigate = useNavigate();
 ## nested routes / outlet 사용법
 nested routes 는 route를 만들 때 경로가 비슷한 것들을 모아두는 곳이라고 생각하면 됩니다.\
 사용법은 아래와 같습니다.
-```
+```javascript
 <Route path="/상위경로" element={<div>HTML 코드1</div>}>
           <Route path="하위경로1" element={<div>HTML 코드1</div>} />
           <Route path="하위경로2" element={<div>HTML 코드2</div>} />
@@ -167,7 +168,7 @@ HTML코드1을 누르게 되면 url에서는 이렇게 보인다.\
 도메인.com/상위경로/하위경로1
 
 outlet은 하위 경로로 진입하면 보일 css를 어디다가 보여줄 것인지 위치를 정해주는 것이다.
-```
+```javascript
 return (
     <>
         <div>회사 정보 페이지</div>
@@ -183,13 +184,13 @@ return (
 ## URL 파라미터 다루기
 URL의 파라미터로 서버에서 받아온 데이터 값을 뿌려주면 한페이지로 여러 페이지를 복사 가능하다.\
 작성법은 아래와 같다.
-```
+```javascript
 <Route path='/detail/:파라미터' element={<div>HTML 코드</div>}/>
 ```
 이렇게 파라미터를 꽃아 넣을 수 있고 여러 파라미터도 넣을 수 있다.\
 react-router-dom 라이브러리를 설치해야 한다.\
 가져오는 방법은 아래와 같다.
-```
+```javascript
 import { useParams } from 'react-router-dom';
 
 //함수 내에 선언
@@ -200,11 +201,11 @@ const {파라미터 이름} = useParams();
 
 ## styled-components를 사용하여 CSS 적용하기
 라이브러리 설치 먼저
-```
+```bash
 npm install styled-components
 ```
 그 후 사용법
-```
+```javascript
 import styled from 'styled-components';
 
 let ColorwBtn = styled.button`
@@ -234,7 +235,7 @@ CSS파일로 작업하려면 페이지의 이름을 다르게 해서 적용하�
 알아두면 좋은 점 => 라이프 사이클 중간중간에 실행할 코드를 껴서 실행시킬 수 있음.
 
 예전 컴포넌트 구조에 간섭하는 방법
-```
+```javascript
 class Detail2 extends React.Component{
   componentDidMount(){
     컴포넌트가 마운트 될때 실행할 코드 작성
@@ -249,7 +250,7 @@ class Detail2 extends React.Component{
 ```
 
 요즘 컴포넌트 구조에 간섭하는 방법
-```
+```javascript
 import { useEffect } from 'react';
 
 //컴포넌트 함수 내에 작성
@@ -262,7 +263,7 @@ useEffect(()=>{
 근데 []이렇게만 써놓으면 mount 할때만 실행된다.
 
 ### useEffect 내의 return => useEffect 동작 전에 실행되는 코드!
-```
+```javascript
 useEffect(()=>{
   //리턴 후에 실행될 코드
   return ()=>{
@@ -285,7 +286,7 @@ HTML을 먼저 보여주고 나서 복잡한 작업을 실행하게 해준다.\
 부가기능을 가진 side Effect를 useEffect에 사용하자.
 
 ### 타이머 다루기
-```
+```javascript
 setTimeout(()=>{실행할 코드}, 1000)
 ```
 초는 ms임. 1000 = 1초.
@@ -305,7 +306,7 @@ useEffect(()=>{ return ()=>{ 실행할 코드 } });
 
 
 ## input tag에 숫자만 넣기 경고창까지 함께
-```
+```javascript
 <input type='text' minLength={1} onChange={(e)=>{
                   const regex = /^[0-9]+$/;
                   if (regex.test(e.target.value)){
