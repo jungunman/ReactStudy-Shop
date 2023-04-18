@@ -1,8 +1,13 @@
 import {Row, Container} from 'react-bootstrap';
 import Card from '../components/Card.js';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 function MainPage(props){
+  let [moreBtn,setMoreBtn] = useState(true);
+  let [loading,setLoading] = useState(false);
+
     return(
       <>
               <div className='main-bg'></div>
@@ -21,18 +26,75 @@ function MainPage(props){
                 <Row>
                   {props.data.map((element,i)=>{
                     return(
-                      <Link to={`/detail/${element.id}`} style={{textDecoration :'none', color : "grey"}}>
-                        <Card key={element.id} data = {element} i={i} />
+                      <Link onClick={()=>{
+                        //최근 본 상품 만들기
+                        if(localStorage.getItem("watched")){
+                          const watched = JSON.parse(localStorage.getItem("watched"));
+                          const isWatched = watched.findIndex((item)=>item.id==element.id);
+                          if(isWatched == -1){
+                            watched.push({
+                              id : element.id,
+                              name :  element.title,
+                              price : element.price
+                            });
+                            localStorage.setItem("watched",JSON.stringify(watched));
+                          }
+                        }else{
+                          const watched =[{
+                            id : element.id,
+                            name :  element.title,
+                            price : element.price
+                          }];
+                          localStorage.setItem("watched",JSON.stringify(watched));
+                        }
+                      }} key={element.id}  className='col-md-4' to={`/detail/${element.id}`} style={{textDecoration :'none', color : "grey"}}>
+                        <Card data = {element} i={i} />
                       </Link>
                       )
                   })
                   }
                 </Row>
               </Container>
+              {
+                loading === true ? <Loading/> : null
+              }
+              {
+                moreBtn === true ? 
+                <button onClick={()=>{
+                  setLoading(true);
+                  axios.get(`https://codingapple1.github.io/shop/data${props.moreCount+2}.json`)
+                  .then((result)=>{
+                    const copyData = [...props.data, ...result.data];
+                    props.setMoreCount(props.moreCount+1)
+                    props.setData(copyData);
+                    setLoading(false);
+                  })
+                  .catch(()=>{
+                    setMoreBtn(false);
+                    setLoading(false);
+                  });
+                }}>더 보기</button>:
+                <NotMore/>
+              }
               </div>
             </>
     )
   }
 
+  function Loading(){
+    return (
+    <>
+    <div className='alert alert-warning'>로딩중...!</div>
+    </>
+    )
+  }
+  function NotMore(){
+    return (
+    <>
+      <div className='alert alert-warning'>더 이상 상품이 없습니다.</div>
+      <button disabled> 더 보기 </button>
+    </>
+    )
+  }
 
   export default MainPage;
