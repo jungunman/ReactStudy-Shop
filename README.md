@@ -349,12 +349,12 @@ function 함수명 ({프롭스명1,프롭스명2}){
 
 요즘 많이 사용하는 것은 axios\
 axios 라이브러리 이용할거므로 설치
-```
+```bash
 npm install axios
 ```
 
 사용방법은 아래와 같다. import 필수!
-```
+```javascript
 import axios from 'axios';
 axios.get(`get요청할 url`)
                   .then((결과)=>{
@@ -368,7 +368,7 @@ axios.get(`get요청할 url`)
 fetch 방법도 있는데, JSON을 벗겨주는 작업이 필요하므로\
 코드 해석할 때 이외에는 안쓰는 것으로 한다.\
 하지만 코드는 해석해야하니까 사용 방법은 아래와 같다.
-```
+```javascript
 fetch('get요청할 url').then((결과)=>{결과.json}).then((data) => {})
 ```
 기본 골자는 이런 느낌?\
@@ -377,7 +377,7 @@ fetch('get요청할 url').then((결과)=>{결과.json}).then((data) => {})
 ## get요청을 여러개 하고 싶을 땐 Promise.all([])
 두 개의 get 요청의 데이터를 모두 가져왔을 때 실행시켜준다.\
 사용방법은 아래와 같다.
-```
+```javascript
 Promise.all([ axios.get("get요청할 url"),axios.get("get요청할 url1")])
 .then((결과)=>{ 결과.data
 데이터 모두 가져왔을 대 쓰는 곳})
@@ -394,7 +394,7 @@ Promise.all([ axios.get("get요청할 url"),axios.get("get요청할 url1")])
 4. 원할 때 2번 className 부착
 
 사용 방법은 아래와 같다.
-```
+```javascript
  function TabContents(props){
   //useState로 땠다 붙였다 기능하기 위해 State 만듬
     const [fade, setFade] = useState('');
@@ -423,7 +423,7 @@ Promise.all([ axios.get("get요청할 url"),axios.get("get요청할 url1")])
 그렇기 때문에 setTimeOut(()=>{실행할 코드},시간)을 써줘야 한다.\
 임의로 setState의 간격을 넓히는 셈.\
 코드는 아래와 같다.
-```
+```javascript
  function TabContents(props){
     const [fade, setFade] = useState('');
 
@@ -476,14 +476,14 @@ app.js에 createContext import!
 react-dom 와 react 가 18.1.x 버전 이상이여야 문제 없다.\
 기업체라면 18.1 이상은 쓰겠지.. 설마...!\
 설치 방법은 아래와 같다.
-```
+```bash
 npm install @reduxjs/toolkit react-redux
 ```
 
 ### 리덕트 쓰기 위해서 할 셋팅!
 1. src 하위에 store.js를 만든다\
 그리고 아래 코드를 붙여 넣는다.
-```
+```javascript
 import { configureStore } from '@reduxjs/toolkit'
 
 export default configureStore({
@@ -492,7 +492,7 @@ export default configureStore({
 ```
 2. 그리고 index.js 가서 <Provider store={store}>로 감싼다.\
 모습은 아래와 같다.
-```
+```javascript
 import store from './store.js';
 <Provider store={store}>
     <React.StrictMode>
@@ -507,7 +507,7 @@ store를 임포트하는 것은 잊지말자!\
 
 ## 리덕스 사용법
 아래 코드를 export하기 전에 삽입한다.
-```
+```javascript
 const user = createSlice({
     name : "user",
     initialState : "김희성"
@@ -527,11 +527,11 @@ export default configureStore({
 등록은 끝났다.\
 이제 할 부분은 저 리덕스를 가져가서 쓰는 것!\
 사용할 해당 파일에 아래 코드를 추가한다.
-```
+```javascript
 const state = useSelector((state)=>{return state});
 ```
 useSelector((state)=>{return state})는 아래처럼 생략 가능하다.
-```
+```javascript
 const state = useSelector((state)=> state );
 console.log(state.user);
 
@@ -543,7 +543,7 @@ console.log(state.user);
 
 ### redux state 변경하는 법
 아래 코드의 reducers를 주목하라!
-```
+```javascript
 const user = createSlice({
     name : "user",
     initialState : "김희성",
@@ -569,7 +569,8 @@ import 후에 useDispatch()를 써준다.
 dispatch는 store.js로 요청보내주는 함수다.
 </strong>
 방법은 아래와 같다.
-```
+
+```javascript
 //Cart.js 내부 코드
 import { useDispatch } from "react-redux";
 const dispatch = useDispatch();
@@ -586,7 +587,7 @@ const dispatch = useDispatch();
 3. dispatch(state변경함수())
 
 ## redux array,object state 변경법
-```
+```javascript
  changeName(state){
             state.name = "유진초이";
             // return {name:"유진초이", age:20}
@@ -597,7 +598,7 @@ const dispatch = useDispatch();
 ### 함수에 파라미터 뚫기 및 payload
 매개 변수를 입력 받아 좀 더 동적으로 만들기\
 ex => 게시글 20개씩 받아보기
-```
+```javascript
 changeAge(state, 매개변수-보통 action이라고 작명함){
             state.key명 += 매개변수.payload;
         }
@@ -615,22 +616,22 @@ action은 변경해주는 함수들이라고 생각하면 됨.
 
 ## localStorage로 Client 측에서 데이터 임시 보관
 localStorage는 문자 형식으로만 저장 가능
-```
+```javascript
 localStorage.setItem("key","value");
 ```
 
 ### Object/Array 형식을 문자로 변환해서 저장하고 꺼내기
 문자로 변경하는 방법은 아래와 같다.
-```
+```javascript
 localStorage.setItem("key",JSON.stringify(obj or arr));
 ```
 문자를 오브젝트 및 배열로 변경하는 방법은 아래와 같다.
-```
+```javascript
 const 변수명 = localStorage.getItem(JSON.parse(obj or arr));
 ```
 
 ### Set()을 쓰면 arr 중복을 제거할 수 있음.
-```
+```javascript
 let 변수명 =  [1,2,2,3,1];
 변수명 = Set(변수명); // 중복을 허용하지 않는 함수
 변수명 = Array.from(변수명); // 다시 arr로 변환
@@ -645,12 +646,12 @@ let 변수명 =  [1,2,2,3,1];
 4. prefetch?
 
 설치 먼저 합시다.
-```
+```bash
 npm install react-query
 ```
 
 index.js 파일 안에 다음 코드 추가
-```
+```javascript
 const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -664,7 +665,7 @@ root.render(
 )
 ```
 앱을 감싸고 있는 것들을 모두 감싸주자.
-```
+```javascript
 let result = useQuery("user", async() =>{
     return axios.get('https://codingapple1.github.io/userdata.json').then((e)=>{
       console.log("ajax 요청됨.")
@@ -677,7 +678,7 @@ let result = useQuery("user", async() =>{
 ex : result.data.객체key
 
 또 , result에 가져오는 값들로 쉽게 error가 났는지, loading중인지 알 수 있다.
-```
+```javascript
 { result.isLoading && '로딩중' }
 { result.error && '에러남' }
 { result.data && result.data.name }
@@ -698,7 +699,7 @@ ex : result.data.객체key
 ### lazy import로 속도 조금 더 개선해보자.
 app.js 파일에 보면 처음에는 Detail,Cart,About 등 처음에는 필요 없는 import 파일들이 있다.\
 이게 필요해질 때 불러주는 방법으로 속도를 조금 더 개선 시킬 수 있다.
-```
+```javascript
 import { lazy } from 'react';
 const Detail = lazy(()=>import('./pages/Detail.js'));
 const Cart = lazy(()=>import('./pages/Cart.js'));
@@ -708,7 +709,7 @@ const About = lazy(()=>import('./pages/About.js'));
 단점이 있음.\
 불러와야 해서 약간의 로딩시간이 있음.
 그럴 땐, Suspense Component로 감싸주면 된다.
-```
+```javascript
 <Suspense fallback={<div>로딩중입니다.</div>}>
         <Routes>
           Route 여러개~
@@ -726,7 +727,7 @@ const About = lazy(()=>import('./pages/About.js'));
 그럴 땐 재랜더링을 특정 조건에만 실행하게 만드는 memo를 사용하면 좋다.\
 특정 조건 : 자신의 props의 state가 변경될 때만 재랜더링\
 테스트 기본 코드는 아래와 같다.
-```
+```javascript
 function Child(){
   console.log('재렌더링됨')
   return <div>자식임</div>
@@ -740,7 +741,7 @@ function Cart(){
 }
 ```
 이것을 memo로 활용 해보면 function의 형태가 조금 달라진다.
-```
+```javascript
 import {memo, useState} from 'react'
 let Child = memo( function(){
   console.log('재렌더링됨')
@@ -765,7 +766,7 @@ useEffect와 비슷한 용도임. \
 차이점이 있다면 실행되는 순서가 조금 다를뿐임.\
 컴포넌트 로드할 때 1번만 실행하고 싶은 코드가 있으면 useMemo에 담으면 됨.\
 테스트 코드는 아래와 같다.
-```
+```javascript
 import {useMemo, useState} from 'react'
 function 함수(){
   return 반복문10억번돌린결과
@@ -794,7 +795,7 @@ flushSync라는 함수를 쓰면 됩니다.
 ### useTransition
 임의로 지연시키는 코드다\
 코드는 아래와 같다.
-```
+```javascript
 import {useState} from 'react'
 let a = new Array(10000).fill(0)
 function App(){
@@ -816,7 +817,7 @@ function App(){
 useTransition() 쓰면 그 자리에 [변수, 함수]가 남습니다. \
 그 중 우측에 있는 startTransition() 함수로 state변경함수 같은걸 묶으면그걸 다른 코드들보다 나중에 처리해줍니다.\
 실행코드는 아래와 같다.
-```
+```javascript
 import {useState, useTransition} from 'react'
 let a = new Array(10000).fill(0)
 function App(){
@@ -848,7 +849,7 @@ startTransition() 으로 감싼 코드가 처리중일 때 true로 변하는 변
 ### useDeferredValue 
 useTransition과 좀 다른 점은, useTransition은 지연시키는 state변경 함수를 감싸준다면 useDeferredValue()은 state 또는 변수를 넣는 것이다.\
 코드는 아래와 같다.
-```
+```javascript
 import {useState, useTransition, useDeferredValue} from 'react'
 let a = new Array(10000).fill(0)
 function App(){
